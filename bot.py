@@ -8,7 +8,7 @@ from llama_index import GPTSimpleVectorIndex
 from llama_index import LLMPredictor, GPTSimpleVectorIndex, PromptHelper, ServiceContext
 from langchain import OpenAI
 
-doc_path = 'C:\Users\Jaimboh\Desktop\Documents'
+doc_path = 'C:/Users/Jaimboh/Desktop/Documents'
 index_file = 'index.json'
 
 if 'response' not in st.session_state:
