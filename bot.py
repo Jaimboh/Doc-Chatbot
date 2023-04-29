@@ -8,7 +8,7 @@ from llama_index import GPTSimpleVectorIndex
 from llama_index import LLMPredictor, GPTSimpleVectorIndex, PromptHelper, ServiceContext
 from langchain import OpenAI
 
-doc_path = 'C:/Users/Jaimboh/Desktop/Documents'
+doc_path = './data/'
 index_file = 'index.json'
 
 if 'response' not in st.session_state:
@@ -19,6 +19,10 @@ def send_click():
 
 index = None
 st.title("Tom's Document Assistant")
+
+# Create the Documents directory if it doesn't exist
+if not os.path.exists(doc_path):
+    os.makedirs(doc_path)
 
 sidebar_placeholder = st.sidebar.container()
 uploaded_file = st.file_uploader("Choose a file")
