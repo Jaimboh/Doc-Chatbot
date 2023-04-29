@@ -1,7 +1,11 @@
-import os
-os.environ["OPENAI_API_KEY"] = '{my_api_key}'
-
 import streamlit as st
+import os
+# Retrieve the OpenAI API key from the Streamlit Secrets Manager
+api_key = st.secrets["openai"]["api_key"]
+# Set the OpenAI API key as an environment variable
+os.environ["OPENAI_API_KEY"] = api_key
+
+
 from llama_index import download_loader
 from llama_index.node_parser import SimpleNodeParser
 from llama_index import GPTSimpleVectorIndex
