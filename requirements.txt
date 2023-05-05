@@ -1,2 +1,1 @@
-llama-index
-streamlit
+llama_index
