@@ -8,8 +8,8 @@ os.environ["OPENAI_API_KEY"] = api_key
 
 from llama_index import download_loader
 from llama_index.node_parser import SimpleNodeParser
-from llama_index import GPTSimpleVectorIndex
-from llama_index import LLMPredictor, PromptHelper, ServiceContext
+from llama_index import GPTVectorStoreIndex
+from llama_index import LLMPredictor,GPTVectorStoreIndex, PromptHelper, ServiceContext
 from langchain import OpenAI
 
 doc_path = './data/'
@@ -58,14 +58,14 @@ if uploaded_file is not None:
 
     service_context = ServiceContext.from_defaults(llm_predictor=llm_predictor, prompt_helper=prompt_helper)
 
-    index = GPTSimpleVectorIndex.from_documents(
+    index = GPTVectorStoreIndex.from_documents(
         documents, service_context=service_context
     )
 
     index.save_to_disk(index_file)
 
 elif os.path.exists(index_file):
-    index = GPTSimpleVectorIndex.load_from_disk(index_file)
+    index = GPTVectorStoreIndex.load_from_disk(index_file)
 
     SimpleDirectoryReader = download_loader("SimpleDirectoryReader")
     loader = SimpleDirectoryReader(doc_path, recursive=True, exclude_hidden=True)
