@@ -20,6 +20,10 @@ if 'response' not in st.session_state:
 def send_click():
     st.session_state.response = index.query(st.session_state.prompt)
 
+class MyVectorStoreIndex(VectorStoreIndex):
+    def save_to_disk(self, filename):
+        self.dump_to_disk(filename)
+
 index = None
 st.title("Tom's Document Assistant")
 
@@ -56,14 +60,14 @@ if uploaded_file is not None:
 
     service_context = ServiceContext.from_defaults(llm_predictor=llm_predictor, prompt_helper=prompt_helper)
 
-    index = VectorStoreIndex.from_documents(
+    index = MyVectorStoreIndex.from_documents(
         documents, service_context=service_context
     )
 
     index.save_to_disk(index_file)
 
 elif os.path.exists(index_file):
-    index = VectorStoreIndex.load(index_file)
+    index = MyVectorStoreIndex.load(index_file)
 
     SimpleDirectoryReader = download_loader("SimpleDirectoryReader")
     loader = SimpleDirectoryReader(doc_path, recursive=True, exclude_hidden=True)
@@ -79,4 +83,3 @@ if index is not None:
     if st.session_state.response:
         st.subheader("Response: ")
         st.success(st.session_state.response, icon="🤖")
-
