@@ -5,15 +5,14 @@ api_key = st.secrets["openai"]["api_key"]
 # Set the OpenAI API key as an environment variable
 os.environ["OPENAI_API_KEY"] = api_key
 
-import pickle
 from llama_index import download_loader
 from llama_index.node_parser import SimpleNodeParser
 from llama_index import GPTVectorStoreIndex
-from llama_index import LLMPredictor, PromptHelper, ServiceContext
+from llama_index import LLMPredictor, GPTVectorStoreIndex, PromptHelper, ServiceContext
 from langchain import OpenAI
 
 doc_path = './data/'
-index_file = 'index.pkl'
+index_file = 'index.json'
 
 if 'response' not in st.session_state:
     st.session_state.response = ''
@@ -61,12 +60,10 @@ if uploaded_file is not None:
         documents, service_context=service_context
     )
 
-    with open(index_file, 'wb') as file:
-        pickle.dump(index, file)
+    index.save(index_file)
 
 elif os.path.exists(index_file):
-    with open(index_file, 'rb') as file:
-        index = pickle.load(file)
+    index = GPTVectorStoreIndex.load(index_file)
 
     SimpleDirectoryReader = download_loader("SimpleDirectoryReader")
     loader = SimpleDirectoryReader(doc_path, recursive=True, exclude_hidden=True)
@@ -80,5 +77,6 @@ if index is not None:
     st.text_input("Ask something: ", key='prompt')
     st.button("Send", on_click=send_click)
     if st.session_state.response:
-        st.subheader("Response:")
+        st.subheader("Response: ")
         st.success(st.session_state.response, icon="🤖")
+
