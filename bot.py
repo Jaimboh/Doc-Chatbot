@@ -62,7 +62,7 @@ if uploaded_file is not None:
         documents, service_context=service_context
     )
 
-    index.save_to_disk(index_file)
+    index.save(index_file)
 
 elif os.path.exists(index_file):
     index = GPTVectorStoreIndex.load_from_disk(index_file)
