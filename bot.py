@@ -53,7 +53,7 @@ if uploaded_file is not None:
 
     max_input_size = 4096
     num_output = 256
-    max_chunk_overlap = 20.0
+    max_chunk_overlap = 1.0
     prompt_helper = PromptHelper(max_input_size, num_output, max_chunk_overlap)
 
     service_context = ServiceContext.from_defaults(llm_predictor=llm_predictor, prompt_helper=prompt_helper)
