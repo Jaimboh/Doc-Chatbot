@@ -60,7 +60,7 @@ if uploaded_file is not None:
         documents, service_context=service_context
     )
 
-    index.save(index_file)
+    index.save_to_disk(index_file)
 
 elif os.path.exists(index_file):
     index = VectorStoreIndex.load(index_file)
